@@ -1,6 +1,6 @@
-\section{Model Generalisation}
+\section{Do Rewards Bias Exploration?}
 
-Setup
+\subsection{Modelling Exploration}
 \begin{itemize}
     \item Rosenberg impements a markov chain model to for exploration behaviour. This model effectively memorizes turning statistics. 
     \item Across mice they observe four biases in node action decisions as follows:
@@ -10,26 +10,20 @@ Setup
     \item a) the influence of maze and reward structure on exploratory behaviour,
     \item b) the generality of the different models
     \item The 4 biases are given as follows:
-    \item 2 biases covering movement deeper into the maze: P_SF is the probability that the mouse will move forward. P_SA that it will alternate left and right actions at a T junction. 
-    \item 2 biases covering movement out of the maze: P_BF is the probability that the mouse will move forward through the junction. P_BS that it will turn rather than go straight.
+    \item 2 biases covering movement deeper into the maze: $P_{SF}$ is the probability that the mouse will move forward. $P_{SA}$ that it will alternate left and right actions at a T junction. 
+    \item 2 biases covering movement out of the maze: $P_{BF}$ is the probability that the mouse will move forward through the junction. $P_{BS}$ that it will turn rather than go straight.
     \item The direct path from home to water port is achieved by the following sequence of actions: RLLRLR, where R is right and L is left
     \item While the direct path from water port to home is given by the sequence: STTTTTT, where S is straight, and T is turn
-    \item We see that for the direct path to water, P_SF = 1 and P_SA = 0.8. Identically for the direct path home, P_BF = 1 and P_BS = 0.8.
+    \item We see that for the direct path to water, $P_{SF} = 1$ and $P_{SA} = 0.8$. Identically for the direct path home, $P_{BF} = 1$ and $P_{BS} = 0.8$.
     \item Thus drink and leave modes should have high values for these biases, and we observe this in <insert figure >
 \end{itemize}
 
 \begin{figure}
     \centering
-    \includegraphics[width=\singlefigure]{figures/heuristics_by_mode.png}
+    \includegraphics[width=\singlefigure]{figures/heuristics_by_behavioural_mode.png}
 \end{figure}
 
-Observations
-\begin{itemize}
-    \item 
-\end{itemize}
+\subsection{Do Models Generalise?}
 
 
-Reward Path Bias
-\begin{itemize}
-    \item 
-\end{itemize}
+\subsection{Does the Water Port Still Matter?}

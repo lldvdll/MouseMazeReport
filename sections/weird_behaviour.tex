@@ -1,0 +1,79 @@
+\section{Behavioural Modes and the Unrewarded Water Port}
+
+\subsection{Modes of Behaviour}
+\begin{itemize}
+    \item Rosenberg differentiates three behavioural modes:
+    \item drink: representing direct paths to the water port
+    \item leave: representing direct paths to home
+    \item explore: representing all other paths
+    \item Modes are labeled deterministically by the following process: Start at the bout exit and step backward through the trajectory. The set of steps which monotonically increase in distance from the exit are classified as "leave". They trace a similar path from water port visits and classify these as "drink" mode. All other steps are classified as "explore".
+    \item We note that this allows no room for noise. We hypothesise three types of potential noise in modes. Firstly, there may be noise due to video data parsing. Second, the mouse may make a brief error during a direct path, but continue on. Third, the mouse may be distracted during a direct path but then continue.
+    \item We analyse the sensitivity of the mode classification by allowing errors of up to 5 steps, and as per Rosenberg Figure 7B, we plot the distribution of behavioural modes over time <insert figure>.
+    \item We observe that differences in the distribution are negligible, concluding that despite having no error tolerance, the behavioural mode routine proposed by Rosenberg is robust.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\singlefigure]{figures/mode_sensitivity.png}
+\end{figure}
+
+\subsection{Are There Other Modes?}
+\begin{itemize}
+    \item As such, we attempt to discover additional curious behavioural patterns which may indicate additional alternative modes.
+    \item We analyse short bouts across mice which occur with high frequency. 
+    \item Though we filter for bouts of <100 steps, those which occur more than 3 times are of maximum length <insert max short path length>.
+    \item For the rewarded group these include drink runs, where the mouse follows an optimal, or near optimal path from home to the water port and back again.
+    \item We also observe similar direct paths to other locations with re-occur both across mice and for the same mouse. 
+    \item Examples paths are shown in <insert figure>, along with thier number of occurances n. We also calculate the probability of each path occuring n times with a random walk and present the p-value that these paths are statistically likely. 
+    \item We have excluded paths which include the water port for this plot.
+    \item In addition, we analyse the time spent at the apex nodes of these paths <insert figure>
+\end{itemize}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\singlefigure]{figures/patrols_on_maze_116-False.png}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\singlefigure]{figures/patrol_timings.png}
+\end{figure}
+
+Observations for short paths
+\begin{itemize}
+    \item Short paths visit some common locations for both groups, though these tend to be only 1 or 2 nodes deep, and these tend to have much higher p-value, suggesting that the apex nodes are not necessarily more interesting, but rather 
+    \item In general, we notice that mice spend more time at Apex nodes than outbound or inbound nodes. We may hypothesise that a portion of this may be acocunted for by turning.
+    \item We note that mice in both groups spend significantly longer at the water port (green).
+    \item The rewarded group may be drinking, but the unrewarded group spends almost as long at this node.
+    \item We also note that duration at the sohrt path apex nodes (yellow) is notably longer than for normal exploration, though still a fraction of the time spent at the water port node, though likely not long enough to infer that the mice are investigating a physical marker with the same level of interest.
+    \item Additionally, we observe that the short paths (yellow) have higher variance in node duration during inbound and outbound paths. 
+    \item The evidence accumulated, we consider the following hypotheses:
+    \item investigation of physical markers - supported by re-occurance across mice and repeated occurence in clustered bouts
+    \item detailed exploration of local markers rather than global exploration for maze structure - indicated by higher variance in node duration
+    \item patrol runs - common locations and short paths near home, as well as re-occurance
+    \item Though we can not infer the cognitive states and behavioural cues causing these short bouts, they are indicative of additional behavioural modes.
+    \item Future work may invetigate the extent to which these behaviours skew mode based modelling.
+\end{itemize}
+
+\subsection{Unrewarded Mice Prefer Node 116}
+\begin{itemize}
+    \item In Figure 10 (A) they explore leaf node preferences. We explore this in more detail in <inset figure>.
+    \item This shows the frequency of leaf node visits across mice, separated into rewarded and unrewarded groups.
+    \item 
+\end{itemize}
+
+Observations for leaf node visits
+\begin{itemize}
+    \item We make a number of observations
+    \item Both groups tend to prefer nodes at the extreme corners of the maze (red), followed by nodes at the edge of the maze (yellow), and then internal nodes.
+    \item Nodes 115 and 116 are outliers to this trend for both rewarded and unrewarded groups. 116 is the location of the water port, and 115 is the adjecent node in the maze, with 1 level difference.
+    \item We note that the unrewarded group exhibits a preference for the water port node, despite having recieved no rewards from it.
+    \item We have 2 hypotheses, one that the rewarded group has left physical markers at this node, such as a scent, which have not been sufficiently cleaned between mice. The other that parts of the apparatus, such as the dry water spout, are still present and act as a point of interest or distinction in the maze for repeated investigation.
+    \item This behvaiourmay be considered distinct from the three modes proposed by <rosenberg>, since the mice are neither being rewarded, nor exploring randomly, though this may indicate directed exporatory behaviour.
+\end{itemize}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\singlefigure]{figures/leaf_node_visits.png}
+\end{figure}
