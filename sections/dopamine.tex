@@ -10,7 +10,7 @@ as a shift in the internal evidence threshold required to trigger the
 exploration–exploitation transition. Consequently, genotypes associated 
 with higher dopamine levels should reach the insight transition earlier, 
 while genotypes with lower dopamine tone require more accumulated 
-reward evidence before switching strategies.The literature shows that the Met allele leads to lower enzyme activity and consequently higher tonic dopamine levels \cite{bilder2004}. 
+reward evidence before switching strategies. The literature shows that the Met allele leads to lower enzyme activity and consequently higher tonic dopamine levels \cite{bilder2004}. 
 Neurobiologically, high dopamine levels lower the synaptic potentiation (LTP) threshold, thus increasing learning flexibility. This is expressed in the model by a genotype-dependent scaling factor ($f$):
 \begin{equation}
 \theta_{bio} = \theta \times f
@@ -18,7 +18,7 @@ Neurobiologically, high dopamine levels lower the synaptic potentiation (LTP) th
 
 \begin{figure*}[t]
     \centering
-\includegraphics[width=\textwidth]{A.png}
+\includegraphics[width=\textwidth]{figures/A.png}
     \caption{Genotype-dependent differences in insight timing predicted by the latent hazard model. (A) Distribution of simulated insight steps across COMT Val158Met genotypes. Points represent the median insight time across multiple simulation seeds, and error bars indicate the interquartile range (IQR). Higher dopamine levels (Met/Met) correspond to a lower effective switching threshold $\theta$, leading to earlier insight transitions. Conversely, lower dopamine levels (Val/Val) delay the onset of insight. (B) Median cumulative reward trajectories for each genotype. Curves represent the median trajectory across seeds for the latent hazard model. Vertical dashed lines indicate the estimated insight transition point for each genotype. Increasing the biological threshold $\theta_{bio} = \theta \times f$ shifts the exploration–exploitation transition to later steps, producing systematically delayed learning in the low-dopamine condition.}
     \label{fig:genotype_results}
 \end{figure*}
