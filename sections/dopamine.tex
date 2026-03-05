@@ -1,0 +1,63 @@
+\section{Dopamine Dependent Insight Threshold}
+To provide a biological basis for the developed Latent Hazard Model, we integrated the COMT Val158Met polymorphism into the model. The COMT enzyme is responsible for dopamine degradation in the prefrontal cortex (PFC). Neurobiologically, dopamine is known to regulate synaptic plasticity 
+through modulation of long-term potentiation (LTP) thresholds in 
+prefrontal and hippocampal circuits. Higher tonic dopamine levels 
+facilitate synaptic potentiation and reduce the evidence required to 
+stabilize a new behavioral strategy.
+
+Within the latent hazard framework, this mechanism can be interpreted 
+as a shift in the internal evidence threshold required to trigger the 
+exploration–exploitation transition. Consequently, genotypes associated 
+with higher dopamine levels should reach the insight transition earlier, 
+while genotypes with lower dopamine tone require more accumulated 
+reward evidence before switching strategies.The literature shows that the Met allele leads to lower enzyme activity and consequently higher tonic dopamine levels \cite{bilder2004}. 
+Neurobiologically, high dopamine levels lower the synaptic potentiation (LTP) threshold, thus increasing learning flexibility. This is expressed in the model by a genotype-dependent scaling factor ($f$):
+\begin{equation}
+\theta_{bio} = \theta \times f
+\end{equation}
+
+\begin{figure*}[t]
+    \centering
+\includegraphics[width=\textwidth]{A.png}
+    \caption{Genotype-dependent differences in insight timing predicted by the latent hazard model. (A) Distribution of simulated insight steps across COMT Val158Met genotypes. Points represent the median insight time across multiple simulation seeds, and error bars indicate the interquartile range (IQR). Higher dopamine levels (Met/Met) correspond to a lower effective switching threshold $\theta$, leading to earlier insight transitions. Conversely, lower dopamine levels (Val/Val) delay the onset of insight. (B) Median cumulative reward trajectories for each genotype. Curves represent the median trajectory across seeds for the latent hazard model. Vertical dashed lines indicate the estimated insight transition point for each genotype. Increasing the biological threshold $\theta_{bio} = \theta \times f$ shifts the exploration–exploitation transition to later steps, producing systematically delayed learning in the low-dopamine condition.}
+    \label{fig:genotype_results}
+\end{figure*}
+
+In the simulations, genotype effects were implemented by scaling the 
+switching threshold parameter $\theta$ using the genotype-dependent 
+factor $f$. This modification changes the amount of accumulated reward 
+evidence required before the exploration–exploitation transition occurs, 
+thereby shifting the timing of the insight event.
+This formulation allows dopamine-dependent genetic variation to directly 
+modulate the evidence threshold for insight. In this framework, lower 
+values of $\theta_{bio}$ increase the probability of earlier switching 
+according to the switching rule defined in
+according to the switching rule defined in Equation~\ref{eq:switch}. 
+
+Substituting the biological threshold $\theta_{bio}$ shifts the sigmoid 
+switching function toward lower reward counts, effectively predicting 
+earlier exploration–exploitation transitions for high-dopamine genotypes.
+
+Thus, higher dopamine levels effectively shift the sigmoid switching 
+curve toward earlier reward counts.
+
+
+
+\begin{table}[htbp]
+\centering
+\caption{Genotype-dependent Scaling Factors}
+\label{tab:genotypes}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Genotype} & \textbf{Dopamine Level} & \textbf{Scaling Factor (f)} \\
+\midrule
+Met/Met & High    & 0.6 \\
+Val/Met & Normal  & 1.0 \\
+Val/Val & Low     & 1.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+Simulation results (n = 10 seeds; median [Q1, Q3]) show that dopamine-dependent shifts in the switching threshold strongly influence insight timing. The high-dopamine genotype (Met/Met) reaches insight at approximately step 1972 with the lowest effective threshold $(\theta_{bio}=8.4)$, producing the earliest transition to exploitation. In contrast, the low-dopamine genotype (Val/Val), associated with higher COMT activity and reduced dopaminergic tone, reaches insight much later at approximately step 3904 $(\theta_{bio}=19.6)$. This genotype-dependent separation is clearly visible in Figure 3 as a systematic shift of the exploration–exploitation transition toward later steps.
+The logarithmic slope ratio $(log_SR)$ analysis shows that all three genotypes increase the reward collection rate after insight. The fact that the $Low_DA$ group had the highest $log_SR$ value (0.960) may indicate that the behavioral effect of the insight, even if delayed, is quite strong.
