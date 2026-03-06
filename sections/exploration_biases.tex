@@ -29,7 +29,7 @@ To quantify how strictly a mouse adheres to these biases, we calculate the Intri
 A perfectly random walk at a T-junction yields an entropy of $\log_2(3) \approx 1.58$ bits per step. Lower values indicate highly structured, predictable movement.
 
 \subsection{Innate Rules vs. Cognitive Anchoring}
-We trained the 4-Bias model on strictly unstructured sequences (Mode 2: \textit{Explore}) using rigorous 5-fold cross-validation. Figure \ref{fig:generalisation_anchoring}A displays the out-of-sample cross-entropy [CE}] distributions. Models trained on peer mice generalised comparatively to models trained on the subject itself, though variance increased. 
+We trained the 4-Bias model on strictly unstructured sequences (Mode 2: \textit{Explore}) using rigorous 5-fold cross-validation. Figure \ref{fig:generalisation_anchoring}A displays the out-of-sample cross-entropy [CE] distributions. Models trained on peer mice generalised comparatively to models trained on the subject itself, though variance increased. 
 
 We observe a slight increase in CE for the unrewarded group, suggesting more random exploration. Though an independent Welch's t-test revealed no significant difference in the baseline exploratory entropy between the rewarded ($\mu = 1.521$ bits) and unrewarded ($\mu = 1.527$ bits) groups ($p = 0.65$). This proves that the 4-Bias geometric heuristics are an \textit{innate} biological baseline, universally employed by all mice regardless of reward conditioning.
 
