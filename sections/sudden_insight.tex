@@ -3,19 +3,27 @@
 
 Traditional analyses of spatial learning often average performance metrics across a cohort of animals, typically yielding a smooth, exponential learning curve. However, as demonstrated by \cite{gallistel2004learning}, averaging over individual learning trajectories can mask the true, often discontinuous nature of cognitive acquisition. When analysing the cumulative direct paths to the water port on an individual basis, we observe that spatial learning in mice is highly non-linear.
 
-Specifically, $5$ out of the $10$ rewarded mice exhibited ``sudden insight''---a behavioural shift characterised by an abrupt, persistent increase in the gradient of cumulative direct paths to the target. To formalise the detection of this cognitive shift, we analysed the trajectory efficiency (measured in total steps per bout) from the home node to the water port. 
+Approximately half of rewarded mice exhibited ``sudden insight'', which matches observations made by Rosenberg et al \cite{rosenberg2021mice}. Sudden insight is a behavioural shift characterised by an abrupt, persistent increase in the gradient of cumulative direct paths to the target.
 
-We deployed a Bayesian Change Point Detection algorithm to identify the optimal point of behavioural separation, $\tau$. We operated under the assumption that the path lengths before and after the insight event are drawn from two distinct Poisson distributions, defined by rate parameters $\lambda_1$ and $\lambda_2$. The posterior probability of the change point, given the sequence of path lengths $X$, is defined as:
+To formalise the detection of this cognitive shift, we evaluated three change-point methodologies. First, following Rosenberg et al. \cite{rosenberg2021mice}, we modelled the rate of direct paths to the target as an inhomogeneous Poisson point process, fitting a 4-parameter sigmoid function [SIG] to identify the time of half-maximal rate change.
+
+Secondly, we used a Bayesian Change Point [BCP] Detection algorithm to identify an optimal discrete point of behavioural separation, $\tau$. We operated under the assumption that the path lengths before and after the insight event are drawn from two distinct Poisson distributions, defined by rate parameters $\lambda_1$ and $\lambda_2$. The posterior probability of the change point, given the sequence of path lengths $X$, is defined as:
 
 \begin{equation}
     P(\lambda_1, \lambda_2, \tau | X) \propto P(X | \lambda_1, \lambda_2, \tau) P(\lambda_1) P(\lambda_2) P(\tau)
 \end{equation}
 
-where the likelihood function $P(X | \lambda_1, \lambda_2, \tau)$ assumes a Poisson process, such that $x_t \sim \text{Poisson}(\lambda_1)$ for $t \leq \tau$ and $x_t \sim \text{Poisson}(\lambda_2)$ for $t > \tau$. 
+where the likelihood function $P(X | \lambda_1, \lambda_2, \tau)$ assumes $x_t \sim \text{Poisson}(\lambda_1)$ for $t \leq \tau$ and $x_t \sim \text{Poisson}(\lambda_2)$ for $t > \tau$. 
 
-As shown in Figure \ref{fig:sudden_insight}, the algorithm successfully isolates the pre- and post-insight distributions. Interestingly, we note that significant reward accumulation frequently occurs prior to the detected change point ($\tau$). This suggests a period of latent spatial exploration occurs before the mouse confidently optimises its exploitation route. 
+For the third approach, we implemented a third method: a threshold-based detection of the "elbow" in the cumulative direct path curve [CDPE]. By evaluating a rolling average of the direct path rate, this method reliably isolates the onset of sustained exploitation without being penalised by interspersed exploratory bouts.
 
-Furthermore, while the emergence of direct paths provides a clear marker for discontinuous learning, we concurrently observe a gradual decrease in the length of \textit{non-direct} paths leading to the target. This divergence indicates a crucial cognitive distinction between learning the absolute spatial location of the water port (``knowing where'') and optimising the navigational heuristic required to reach it efficiently from home (``knowing how''). This latent optimisation strongly aligns with the development of an internal Cognitive Map \cite{tolman1948cognitive}, which is constructed during unstructured exploration prior to the onset of sudden insight.
+While this BCP approach significantly improved detection compared to the sigmoid model, it proved highly sensitive to intermittent exploratory paths. Because mice frequently alternate between target exploitation and free exploration, these intermittent long paths mathematically disrupt the post-insight Poisson distribution, causing the Bayesian detector to artificially delay the change point.
+
+Reuslts are shown in Figure \ref{fig:sudden_insight}, where we plot a detailed analysis of the three detected change points along with supporting data, and include a summary across all mice which shows the time of sudden insight from the three methods against the occurance of rewards and direct paths to the water port. 
+
+We observe that none of the three methods is robust. That SIG struggles when insight occurs early, and that the BCP approach is most sensitive to the presence of intermittent exploratory bouts, the CDPE approach appears to be the most consistent. However, the correlation of the three detectors appears to be a reasonable indicator of the existence of sudden insight. Where learning is more gradual, the BCP tends to predict early and the SIG tends to predict late, which CDPE tends to be somewhere between. The divergence of these detectors, combined with a distance or rate threshold, threshold may provide a robust detector for sudden insight.
+
+While the emergence of direct paths with high frequency provides a clear marker for discontinuous learning, we also observe a gradual decrease in the length of \textit{non-direct} paths leading to the target. This divergence indicates a crucial cognitive distinction between learning the absolute spatial location of the water port (``knowing where'') and optimising the navigational heuristic required to reach it efficiently from home (``knowing how''). This latent optimisation strongly aligns with the development of an internal Cognitive Map \cite{tolman1948cognitive}, which is constructed during unstructured exploration prior to the onset of sudden insight.
 
 \begin{figure}[htbp]
     \centering
@@ -24,6 +32,6 @@ Furthermore, while the emergence of direct paths provides a clear marker for dis
     \includegraphics[width=0.48\textwidth]{figures/sudden_insight_B4.png} \\
     \includegraphics[width=0.48\textwidth]{figures/sudden_insight_C6.png}
     \includegraphics[width=0.48\textwidth]{figures/sudden_insight_C8.png}
-    \caption{\textbf{Discontinuous Learning and Change Point Detection.} (Top-Left) Average path lengths over time, demonstrating the smooth exponential curve artifact caused by cohort averaging. (Other Panels) Individual mouse analyses demonstrating sudden insight. The Bayesian Change Point ($\tau$) is detected by comparing the Poisson distributions of path lengths pre-insight (light blue) and post-insight (dark blue), aligning with the abrupt shift in cumulative direct paths.}
+    \caption{\textbf{Discontinuous Learning and Change Point Detection.} (Top-Left) Summary across mice of sudden insight detection methods (SIG, BCP, CDPE), with occurence of rewards and direct paths for context. (Other Panels) Individual mouse analyses demonstrating sudden insight detection vertically. The Bayesian Change Point ($\tau$) is detected by comparing the Poisson distributions of path lengths pre-insight (light blue) and post-insight (dark blue), and cumulative direct path rate (black), and cumulative rewards (orange).}
     \label{fig:sudden_insight}
 \end{figure}
