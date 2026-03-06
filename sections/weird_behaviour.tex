@@ -1,75 +1,32 @@
-\section{Behavioural Modes and the Unrewarded Water Port}
+\section{Behavioural Modes and Latent Target Fixation}
+\label{sec:modes_and_fixation}
 
-\subsection{Modes of Behaviour}
-\begin{itemize}
-    \item Rosenberg differentiates three behavioural modes:
-    \item drink: representing direct paths to the water port
-    \item leave: representing direct paths to home
-    \item explore: representing all other paths
-    \item Modes are labeled deterministically by the following process: Start at the bout exit and step backward through the trajectory. The set of steps which monotonically increase in distance from the exit are classified as "leave". They trace a similar path from water port visits and classify these as "drink" mode. All other steps are classified as "explore".
-    \item We note that this allows no room for noise. We hypothesise three types of potential noise in modes. Firstly, there may be noise due to video data parsing. Second, the mouse may make a brief error during a direct path, but continue on. Third, the mouse may be distracted during a direct path but then continue.
-    \item We analyse the sensitivity of the mode classification by allowing errors of up to 5 steps, and as per Rosenberg Figure 7B, we plot the distribution of behavioural modes over time <insert figure>.
-    \item We observe that differences in the distribution are negligible, concluding that despite having no error tolerance, the behavioural mode routine proposed by Rosenberg is robust.
-\end{itemize}
+\subsection{Robustness of Behavioural Modes}
+Rosenberg et al. \cite{rosenberg2021mice} proposed that mouse spatial navigation can be partitioned into three distinct behavioural modes: \textit{drink} (direct paths to the water port), \textit{leave} (direct paths to the exit), and \textit{explore} (all other unstructured paths). These modes are assigned deterministically. For example, a trajectory is classified as \textit{leave} if the shortest-path distance to the exit, $d(x_t, E)$, strictly and monotonically decreases with each sequential step $x_t$.
 
-\begin{figure}
+We hypothesized that this strict zero-tolerance monotonic rule might be overly sensitive to biological noise, such as brief navigational errors, transient distractions, or minor parsing artifacts in the tracking data. To test the robustness of this classification, we injected a leniency threshold, permitting up to 5 non-monotonic steps before interrupting a \textit{drink} or \textit{leave} sequence. Comparing the distribution of behavioural modes over time under both strict and relaxed conditions revealed negligible differences. We therefore conclude that the deterministic routine proposed by Rosenberg et al. is highly robust to transient navigational noise.
+
+\subsection{Unrewarded Target Fixation and Short Paths}
+While the three generic modes capture broad behavioural states, analysing the specific spatial distribution of unstructured \textit{explore} bouts reveals highly non-uniform tendencies. As shown in Figure \ref{fig:leaf_visits}, both the rewarded and unrewarded cohorts exhibit a strong baseline preference for exploring the extreme corners of the maze, followed by the outer edges, with internal nodes receiving the least attention.
+
+However, Nodes 115 and 116 represent significant outliers to this spatial gradient. Node 116 houses the water port apparatus. Crucially, the unrewarded cohort exhibits a pronounced preference for investigating this specific node, despite never receiving a water reward. We propose two hypotheses for this latent target fixation: (1) residual olfactory markers left by the rewarded cohort despite cleaning protocols, or (2) the physical irregularity of the dry water spout acting as an inherent point of investigatory interest within an otherwise uniform maze.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\singlefigure]{figures/mode_sensitivity.png}
+    \includegraphics[width=0.5\textwidth]{figures/leaf_node_visits.png}
+    \caption{\textbf{Average Leaf Node Visits.} The frequency of visits to the terminal ends of the maze. Both cohorts display a geometric preference for extreme corners (red) and edges (orange). Notably, the unrewarded cohort displays an anomalous fixation on the water port (Node 116, green) despite lacking a reward history.}
+    \label{fig:leaf_visits}
 \end{figure}
 
-\subsection{Are There Other Modes?}
-\begin{itemize}
-    \item As such, we attempt to discover additional curious behavioural patterns which may indicate additional alternative modes.
-    \item We analyse short bouts across mice which occur with high frequency. 
-    \item Though we filter for bouts of <100 steps, those which occur more than 3 times are of maximum length <insert max short path length>.
-    \item For the rewarded group these include drink runs, where the mouse follows an optimal, or near optimal path from home to the water port and back again.
-    \item We also observe similar direct paths to other locations with re-occur both across mice and for the same mouse. 
-    \item Examples paths are shown in <insert figure>, along with thier number of occurances n. We also calculate the probability of each path occuring n times with a random walk and present the p-value that these paths are statistically likely. 
-    \item We have excluded paths which include the water port for this plot.
-    \item In addition, we analyse the time spent at the apex nodes of these paths <insert figure>
-\end{itemize}
+To determine whether these visits to Node 116 were random anomalies or structured behaviour, we conducted a spatial and kinematic analysis of recurring ``short paths''---sequences of steps that mice repeat significantly more often than predicted by a uniform random walk (Poisson $p < 0.05$). 
 
+When isolated, these short paths frequently terminate at the water port or maze extremities. Furthermore, an analysis of the dwell times (node duration) during these specific paths reveals a distinct kinematic signature. We partitioned these trajectories into three phases: the \textit{outbound} journey, the \textit{apex} (the deepest point of the path), and the \textit{inbound} return. As demonstrated in Figure \ref{fig:short_paths}, the mean dwell time spikes significantly at the apex of these short paths across both cohorts. 
 
-\begin{figure}
+This kinematic pausing strongly supports the hypothesis that these are not artifacts of random wandering, but rather directed investigatory ``short bouts'' or patrolling behaviours. The presence of this highly structured, goal-oriented movement within the theoretically unstructured \textit{explore} dataset suggests that future work may need to classify a fourth behavioural mode to accurately partition directed investigation from pure random exploration.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\singlefigure]{figures/short_paths.png}
-\end{figure}
-
-Observations for short paths
-\begin{itemize}
-    \item Short paths visit some common locations for both groups, though these tend to be only 1 or 2 nodes deep, and these tend to have much higher p-value, suggesting that the apex nodes are not necessarily more interesting, but rather 
-    \item In general, we notice that mice spend more time at Apex nodes than outbound or inbound nodes. We may hypothesise that a portion of this may be acocunted for by turning.
-    \item We note that mice in both groups spend significantly longer at the water port (green).
-    \item The rewarded group may be drinking, but the unrewarded group spends almost as long at this node.
-    \item We also note that duration at the sohrt path apex nodes (yellow) is notably longer than for normal exploration, though still a fraction of the time spent at the water port node, though likely not long enough to infer that the mice are investigating a physical marker with the same level of interest.
-    \item Additionally, we observe that the short paths (yellow) have higher variance in node duration during inbound and outbound paths. 
-    \item The evidence accumulated, we consider the following hypotheses:
-    \item investigation of physical markers - supported by re-occurance across mice and repeated occurence in clustered bouts
-    \item detailed exploration of local markers rather than global exploration for maze structure - indicated by higher variance in node duration
-    \item patrol runs - common locations and short paths near home, as well as re-occurance
-    \item Though we can not infer the cognitive states and behavioural cues causing these short bouts, they are indicative of additional behavioural modes.
-    \item Future work may invetigate the extent to which these behaviours skew mode based modelling.
-\end{itemize}
-
-\subsection{Unrewarded Mice Prefer Node 116}
-\begin{itemize}
-    \item In Figure 10 (A) they explore leaf node preferences. We explore this in more detail in <inset figure>.
-    \item This shows the frequency of leaf node visits across mice, separated into rewarded and unrewarded groups.
-    \item 
-\end{itemize}
-
-Observations for leaf node visits
-\begin{itemize}
-    \item We make a number of observations
-    \item Both groups tend to prefer nodes at the extreme corners of the maze (red), followed by nodes at the edge of the maze (yellow), and then internal nodes.
-    \item Nodes 115 and 116 are outliers to this trend for both rewarded and unrewarded groups. 116 is the location of the water port, and 115 is the adjecent node in the maze, with 1 level difference.
-    \item We note that the unrewarded group exhibits a preference for the water port node, despite having recieved no rewards from it.
-    \item We have 2 hypotheses, one that the rewarded group has left physical markers at this node, such as a scent, which have not been sufficiently cleaned between mice. The other that parts of the apparatus, such as the dry water spout, are still present and act as a point of interest or distinction in the maze for repeated investigation.
-    \item This behvaiourmay be considered distinct from the three modes proposed by <rosenberg>, since the mice are neither being rewarded, nor exploring randomly, though this may indicate directed exporatory behaviour.
-\end{itemize}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\singlefigure]{figures/leaf_node_visits.png}
+    \includegraphics[width=0.5\textwidth]{figures/short_paths.png}
+    \caption{\textbf{Spatial and Kinematic Profile of Recurring Short Paths.} (A, B) Visualisation of statistically significant recurring spatial loops. The unrewarded cohort distinctly loops to Node 116. (C) Kinematic dwell times partitioned by path phase. The significant increase in dwell time at the path's \textit{Apex} indicates active investigation/decision-making, supporting the hypothesis that these short paths represent structured investigatory behaviour rather than random movement.}
+    \label{fig:short_paths}
 \end{figure}

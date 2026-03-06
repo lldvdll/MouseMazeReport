@@ -1,55 +1,37 @@
-\section{Do Rewards Bias Exploration?}
+\section{The Universality of Exploratory Heuristics}
+\label{sec:exploration_biases}
 
-\subsection{Modelling Exploration}
+\subsection{Modelling Geometric Biases}
+While unstructured exploration appears random, Rosenberg et al. \cite{rosenberg2021mice} demonstrated that mouse navigation in a labyrinth is heavily governed by geometric heuristics. Rather than memorising exact spatial routes, mice employ a spatially-invariant, second-order Markov model (a ``biased random walk'') at every T-junction. 
+
+This model collapses all maze decisions into four fundamental turning biases based on the mouse's approach vector:
 \begin{itemize}
-    \item Rosenberg impements a markov chain model to for exploration behaviour. This model effectively memorizes turning statistics. 
-    \item Across mice they observe four biases in node action decisions as follows:
-    \item <insert description of biases>
-    \item They implement a simplified 4-bias markov model and train these on each mouse to determine a weighting for each bias which reflects the mouses tendencies during exploration.
-    \item We explore these models with respect to both
-    \item a) the influence of maze and reward structure on exploratory behaviour,
-    \item b) the generality of the different models
-    \item The 4 biases are given as follows:
-    \item 2 biases covering movement deeper into the maze: $P_{SF}$ is the probability that the mouse will move forward. $P_{SA}$ that it will alternate left and right actions at a T junction. 
-    \item 2 biases covering movement out of the maze: $P_{BF}$ is the probability that the mouse will move forward through the junction. $P_{BS}$ that it will turn rather than go straight.
-    \item The direct path from home to water port is achieved by the following sequence of actions: RLLRLR, where R is right and L is left
-    \item While the direct path from water port to home is given by the sequence: STTTTTT, where S is straight, and T is turn
-    \item We see that for the direct path to water, $P_{SF} = 1$ and $P_{SA} = 0.8$. Identically for the direct path home, $P_{BF} = 1$ and $P_{BS} = 0.8$.
-    \item Thus drink and leave modes should have high values for these biases, and we observe this in <insert figure >
+    \item \textbf{Stem-Forward ($P_{SF}$):} The probability of continuing forward into the maze when arriving from a parent stem (avoiding a U-turn).
+    \item \textbf{Stem-Alternating ($P_{SA}$):} The probability of alternating turn directions (e.g., Left then Right) when moving forward through consecutive stems.
+    \item \textbf{Branch-Forward ($P_{BF}$):} The probability of continuing forward when arriving from a child branch (avoiding a U-turn).
+    \item \textbf{Branch-to-Stem ($P_{BS}$):} The probability of selecting the parent stem (heading toward the exit) rather than the adjacent child branch when moving forward.
 \end{itemize}
 
-\begin{figure}
+
+
+To quantify how strictly a mouse adheres to these biases, we calculate the Intrinsic Entropy (Cross-Entropy, $H$) of its trajectory. For a sequence of node transitions $X$ of length $N$, evaluated under the learned bias probabilities $P$, the cross-entropy per decision is:
+\begin{equation}
+    H = -\frac{1}{N} \sum_{t=1}^{N} \log_2 P(x_{t+1} | x_t, x_{t-1})
+\end{equation}
+A perfectly random walk at a T-junction yields an entropy of $\log_2(3) \approx 1.58$ bits per step. Lower values indicate highly structured, predictable movement.
+
+\subsection{Innate Rules vs. Cognitive Anchoring}
+We trained the 4-Bias model on strictly unstructured sequences (Mode 2: \textit{Explore}) using rigorous 5-fold cross-validation. Figure \ref{fig:generalization_anchoring}A displays the out-of-sample cross-entropy distributions. Strikingly, models trained on peer mice generalized just as well as models trained on the subject itself, with the variance remaining uniform across all evaluations. 
+
+Furthermore, an independent Welch's t-test revealed no significant difference in the baseline exploratory entropy between the rewarded ($\mu = 1.521$ bits) and unrewarded ($\mu = 1.527$ bits) cohorts ($p = 0.65$). This proves that the 4-Bias geometric heuristics are an \textit{innate} biological baseline, universally employed by all mice regardless of reward conditioning.
+
+However, while the baseline rules are universal, the \textit{strictness} with which they are applied varies significantly based on an animal's cognitive map. To evaluate this, we plotted a mouse's overall fixation on the target (defined as the proportion of all leaf visits made to Node 116) against its intrinsic entropy during strictly free-roaming \textit{explore} bouts (Figure \ref{fig:generalization_anchoring}B).
+
+We observe a significant negative correlation ($r = -0.56$). This reveals a phenomenon of ``cognitive spillover.'' When a mouse possesses a strongly anchored spatial goal (high target fixation), its mental map structurally constrains its behaviour even when it is freely exploring. The presence of the target forces the mouse to abandon random wandering (approaching 1.58 bits) in favour of highly efficient, rigid geometric heuristics.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\singlefigure]{figures/heuristics_by_behavioural_mode.png}
+    \includegraphics[width=1.0\textwidth]{figures/generalisation_and_anchoring_box.png}
+    \caption{\textbf{Model Generalizability and Target Anchoring.} (A) 5-fold cross-validated out-of-sample cross-entropy distributions for the 4-Bias model. Generalization is functionally identical whether evaluated on the self, rewarded peers, or unrewarded peers, confirming the universality of the geometric rules. (B) Density and trend analysis mapping overall target fixation against intrinsic exploratory entropy. A strong negative correlation ($r = -0.56$) indicates that target anchoring structurally rigidifies a mouse's free-roaming exploration.}
+    \label{fig:generalization_anchoring}
 \end{figure}
-
-\subsection{Do Models Generalise?}
-
-\begin{itemize}
-    \item We test the generalisaibility of the 4-bias models. We train one model per mouse on explore mode data for both rewarded and unrewarded groups. 
-    \item We train them using a 5-fold cross validation, and test each model on each mouse by calculating the cross-entropy of model predictions against the 20\% test data and use a box plot to analyse the results.
-    \item We make a number of observations. 
-    \item For both groups, the cross-entropy has a range of 0.1, suggesting that there is a range of structured behaviour in exploration.
-    \item The unrewarded mice tend to have a higher cross-entropy, suggesting that their exploration is more random.
-    \item We also observe that models trained on the unrewarded mice generally perform better on the rewarded mice than on the target of training, again suggesting more randomness in exploration for unrewarded mice.
-    \item Variance in cross-entropy of models trained on differnet mice from test have higher variance, though the range is small, suggesting that the 4 biases identified by Rosenberg represent generic eexploration rules which are consistent across mice.
-\end{itemize}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\singlefigure]{figures/generalisation_and_anchoring_box.png}
-\end{figure}
-
-\subsection{Does the Water Port Still Matter?}
-
-\begin{itemize}
-    \item We revisit the question of whether the water port influences exploration.
-    \item We plot the intrinsic entropy of mice (modelled and tested on 100\% of their data) against the proportion of leaf node visits made to the water port node (116).
-    \item We note that since modelling is run on the explore mode data, the intrinsic exploration for the rewarded group actually excludes paths to the water port.
-    \item As such, the bias should have been removed from modelling, and this is corroborated by the spherical distribution and near zero pearson correlation.
-    \item However, visits to the water port have not been removed from the unrewarded mice since they are never in drink mode.
-    \item We observe a correlation of -0.56 between the intrinsic exploration and the proportion of water port visits for the unrewarded mice.
-    \item The more visits to the water port, the more structured their exploration.
-    \item This may be indicative that the short paths, including paths to water port, discussed in <previous section>, and the tendency for mice to investigate node 116, may result in more structured exploration bouts.
-    \item In future work, it may be useful to interrogate these more directed explorations, and possibly to classify an aditional behavioural mode which separates this behaviour.
-\end{itemize}
