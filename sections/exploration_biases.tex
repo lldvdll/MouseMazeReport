@@ -12,7 +12,17 @@ This model collapses all maze decisions into four fundamental turning biases bas
     \item \textbf{Branch-to-Stem ($P_{BS}$):} The probability of selecting the parent stem (heading toward the exit) rather than the adjacent child branch when moving forward.
 \end{itemize}
 
+To validate the presence of these geometric rules, we extracted the transition probabilities for all mice across the different behavioural modes. Figure \ref{fig:turning_biases} successfully reproduces the baseline heuristic behaviour: mice exhibit a strong preference for forward momentum ($P_{SF}, P_{BF} > 0.5$) and alternating turns ($P_{SA} > 0.5$) during unstructured exploration. Crucially, these heuristics diverge sharply during reward-seeking (\textit{drink}) and exiting (\textit{leave}) behaviours, confirming that the \textit{explore} mode is governed by a distinct, geometry-driven random walk.
 
+\begin{figure}[htbp]
+    \centering
+    % Replace with the filename of the 4-bar chart we generated earlier
+    \includegraphics[width=0.5\textwidth]{figures/heuristics_by_behavioural_mode.png}
+    \caption{\textbf{Turning Heuristics by Behavioural Mode.} A reproduction of the geometric turning biases. The dashed line at 0.5 indicates an unbiased random walk. During \textit{explore} mode, mice universally favour forward momentum and alternating turns. These probabilities shift dramatically when mice transition into directed \textit{drink} or \textit{leave} modes.}
+    \label{fig:turning_biases}
+\end{figure}
+
+To quantify how strictly a mouse adheres to these biases across its entire trajectory, we calculate the Intrinsic Entropy (Cross-Entropy, $H$) of its path...
 
 To quantify how strictly a mouse adheres to these biases, we calculate the Intrinsic Entropy (Cross-Entropy, $H$) of its trajectory. For a sequence of node transitions $X$ of length $N$, evaluated under the learned bias probabilities $P$, the cross-entropy per decision is:
 \begin{equation}
@@ -31,7 +41,7 @@ We observe a significant negative correlation ($r = -0.56$). This reveals a phen
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1.0\textwidth]{figures/generalisation_and_anchoring_box.png}
+    \includegraphics[width=0.5\textwidth]{figures/generalisation_and_anchoring_box.png}
     \caption{\textbf{Model Generalizability and Target Anchoring.} (A) 5-fold cross-validated out-of-sample cross-entropy distributions for the 4-Bias model. Generalization is functionally identical whether evaluated on the self, rewarded peers, or unrewarded peers, confirming the universality of the geometric rules. (B) Density and trend analysis mapping overall target fixation against intrinsic exploratory entropy. A strong negative correlation ($r = -0.56$) indicates that target anchoring structurally rigidifies a mouse's free-roaming exploration.}
     \label{fig:generalization_anchoring}
 \end{figure}

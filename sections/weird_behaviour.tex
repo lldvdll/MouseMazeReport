@@ -6,6 +6,16 @@ Rosenberg et al. \cite{rosenberg2021mice} proposed that mouse spatial navigation
 
 We hypothesized that this strict zero-tolerance monotonic rule might be overly sensitive to biological noise, such as brief navigational errors, transient distractions, or minor parsing artifacts in the tracking data. To test the robustness of this classification, we injected a leniency threshold, permitting up to 5 non-monotonic steps before interrupting a \textit{drink} or \textit{leave} sequence. Comparing the distribution of behavioural modes over time under both strict and relaxed conditions revealed negligible differences. We therefore conclude that the deterministic routine proposed by Rosenberg et al. is highly robust to transient navigational noise.
 
+Comparing the distribution of behavioural modes over time under both strict and relaxed conditions revealed negligible differences. As shown in Figure \ref{fig:mode_distribution}, the temporal evolution of these modes cleanly reproduces the findings of Rosenberg et al. \cite{rosenberg2021mice}, transitioning from purely exploratory behaviour to a stable exploitation-driven regimen. We therefore conclude that the deterministic routine is highly robust to transient navigational noise.
+
+\begin{figure}[htbp]
+    \centering
+    % Replace with your actual filename for the modes over time plot
+    \includegraphics[width=0.48\textwidth]{figures/mode_sensitivity.png}
+    \caption{\textbf{Distribution of Behavioural Modes Over Time.} A reproduction of the mode analysis establishing the transition from \textit{explore} to \textit{drink} and \textit{leave} modes. The distributions remain virtually identical when comparing the strict zero-tolerance criteria (Left) to our proposed 5-step error-tolerant criteria (Right), confirming the robustness of the classification routine.}
+    \label{fig:mode_distribution}
+\end{figure}
+
 \subsection{Unrewarded Target Fixation and Short Paths}
 While the three generic modes capture broad behavioural states, analysing the specific spatial distribution of unstructured \textit{explore} bouts reveals highly non-uniform tendencies. As shown in Figure \ref{fig:leaf_visits}, both the rewarded and unrewarded cohorts exhibit a strong baseline preference for exploring the extreme corners of the maze, followed by the outer edges, with internal nodes receiving the least attention.
 
